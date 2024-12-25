@@ -3,16 +3,19 @@ const userSchema = new Schema(
   {
     name: {
       type: String,
-      required: true,
+      required: [true],
+      trim: true,
     },
     email: {
       type: String,
-      required: true,
-      unique: [true],
+      required: [true],
+      // unique: [true],
+      // trim: true,
     },
     password: {
       type: String,
-      required: true,
+      required: [true],
+      trim: true,
     },
     otp: {
       type: Number,
@@ -25,7 +28,11 @@ const userSchema = new Schema(
     },
     image: {
       type: String,
-      
+    },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
     },
   },
   {
