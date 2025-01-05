@@ -30,7 +30,7 @@ const registrationController = async (req, res) => {
           role,
         });
         await user.save();
-        res.send(user);
+       return  res.status(201).send({success:true,message:"Signup Successfully",data:user});
       }
     });
   } catch (error) {
@@ -43,30 +43,59 @@ const loginController = async (req, res) => {
   if (existingUser) {
     bcrypt.compare(password, existingUser.password, function (err, result) {
       if (result) {
-        const token = jwt.sign(
-          { email: existingUser.email, role: existingUser.role },
-          process.env.PRV_TOKEN,
-          {
-            expiresIn: "1h",
-          }
-        );
-        return res
-          .status(200)
-          .send({
-            success: "Login Successfully",
-            existingUser: {
-              name: existingUser.name,
-              email: existingUser.email,
-              role: existingUser.role,
-            },
+        if (existingUser.role === "user") {
+          let loginUserInfo = {
+            id: existingUser._id,
+            name: existingUser.name,
+            email: existingUser.email,
+            role: existingUser.role,
+          };
+
+          const token = jwt.sign({ loginUserInfo }, process.env.PRV_TOKEN, {
+            expiresIn: "24h",
+          });
+          res.cookie("token",token, {
+            httpOnly: true,
+            secure:false
+          });
+          return res.status(200).send({
+            success: "User Login Successfully",
+            data: loginUserInfo,
             token,
           });
+        } else if (existingUser.role === "admin") {
+          let loginUserInfo = {
+            id: existingUser._id,
+            name: existingUser.name,
+            email: existingUser.email,
+            role: existingUser.role,
+          };
+
+          const token = jwt.sign({ loginUserInfo }, process.env.PRV_TOKEN, {
+            expiresIn: "1m",
+          });
+           res.cookie("token",token, {
+             httpOnly: true,
+             secure: false,
+           });
+          return res.status(200).send({
+            success: "Admin Login Successfully",
+            data: loginUserInfo,
+            token,
+          });
+        }
       } else {
-        return res.status(404).send({ err: "Invalid Password" });
+        return res.status(404).send({ error: "Invalid Email or Password" });
       }
     });
   } else {
     return res.status(404).send({ error: "You Have Don't Any Account" });
   }
 };
-module.exports = { registrationController, loginController };
+const allUser = async (req, res) => {
+  let allUser = await userModel.find({})
+  return res
+    .status(200)
+    .send({ success: true, message: "All User Patch", data: allUser });
+}
+module.exports = { registrationController, loginController, allUser };
