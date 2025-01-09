@@ -9,8 +9,8 @@ const userSchema = new Schema(
     email: {
       type: String,
       required: [true],
-      // unique: [true],
-      // trim: true,
+      unique: [true],
+      trim: true,
     },
     password: {
       type: String,
@@ -28,6 +28,10 @@ const userSchema = new Schema(
     },
     image: {
       type: String,
+    },
+    isVerify: {
+      type: Boolean,
+      default:false
     },
     role: {
       type: String,
