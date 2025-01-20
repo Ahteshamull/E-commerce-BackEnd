@@ -3,6 +3,8 @@ const {
   registrationController,
   loginController,
   allUser,
+  OtpVerify,
+  ResendOtp,
 } = require("../../controllers/authController");
 const authMiddleware = require("../../middleware/authMiddleware");
 const router = express.Router();
@@ -10,5 +12,7 @@ const router = express.Router();
 
 router.post("/registration", registrationController);
 router.post("/login", loginController);
+router.post("/otp-verify", OtpVerify);
+router.post("/resend-otp", ResendOtp);
 router.get("/allUsers", authMiddleware, allUser);
 module.exports = router;
