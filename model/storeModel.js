@@ -10,7 +10,7 @@ const storeSchema = new Schema(
       type: String,
     },
     image: {
-      type: Array,
+      type: String,
       required: true,
     },
     products: [

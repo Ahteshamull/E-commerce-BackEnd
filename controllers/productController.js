@@ -1,4 +1,6 @@
 const productsModel = require("../model/productsModel");
+const cetagoryModel = require("../model/cetagoryModel");
+const storeModel = require("../model/storeModel");
 
 const productController = async (req, res) => {
   const {
@@ -10,11 +12,11 @@ const productController = async (req, res) => {
     stock,
     store,
   } = req.body;
- const images = req.files.map(
-   (item) => `${process.env.IMAGE_URL}  ${item.filename}`
- );
+  const images = req.files.map(
+    (item) => `${process.env.IMAGE_URL}  ${item.filename}`
+  );
   try {
-    const product = new productsModel({
+    const createProduct = new productsModel({
       name,
       description,
       image: images,
@@ -24,11 +26,21 @@ const productController = async (req, res) => {
       stock,
       store,
     });
-    await product.save();
+    await createProduct.save();
+    await cetagoryModel.findOneAndUpdate(
+      { _id: cetagory },
+      { $push: { products: createProduct._id } },
+      { new: true }
+    );
+    await storeModel.findOneAndUpdate(
+      { _id: store },
+      { $push: { products: createProduct._id } },
+      { new: true }
+    );
     return res.status(201).send({
       success: true,
       message: "product created successfully",
-      product,
+      createProduct,
     });
   } catch (error) {
     return res

@@ -14,5 +14,5 @@ router.post("/registration", registrationController);
 router.post("/login", loginController);
 router.post("/otp-verify", OtpVerify);
 router.post("/resend-otp", ResendOtp);
-router.get("/allUsers", authMiddleware, allUser);
+router.get("/all-users", authMiddleware, allUser);
 module.exports = router;

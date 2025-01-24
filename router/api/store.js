@@ -48,7 +48,7 @@ function errorCheck(err, req, res, next) {
 router.post(
   "/productStore",
   errorCheck,
-  upload.array("image"),
+  upload.single("image"),
   storeController
 );
 

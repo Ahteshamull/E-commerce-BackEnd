@@ -1,15 +1,16 @@
 const storeModel = require("../model/storeModel");
 
 const storeController = async (req, res) => {
-  const { name, description, products, location,contact } = req.body;
+  const { name, description, products, location, contact } = req.body;
+  const { filename } = req.file;
 
-  const images = req.files.map((item)=> `${process.env.IMAGE_URL}  ${item.filename}`)
+  // const images = req.files.map((item)=> `${process.env.IMAGE_URL}  ${item.filename}`)
 
   try {
     const store = new storeModel({
       name,
       description,
-      image: images,
+      image: process.env.IMAGE_URL + filename,
       products,
       contact,
       location,
