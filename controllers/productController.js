@@ -13,7 +13,7 @@ const productController = async (req, res) => {
     store,
   } = req.body;
   const images = req.files.map(
-    (item) => `${process.env.IMAGE_URL}  ${item.filename}`
+    (item) => `${process.env.IMAGE_URL}${item.filename}`
   );
   try {
     const createProduct = new productsModel({

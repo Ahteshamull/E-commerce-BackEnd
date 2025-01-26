@@ -17,12 +17,11 @@ const productsSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Cetagory",
     },
-    store: 
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Store",
-      },
-  
+    store: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Store",
+    },
+
     stock: {
       type: Number,
     },
