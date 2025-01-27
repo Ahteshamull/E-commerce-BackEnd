@@ -63,8 +63,8 @@ const deleteProduct = async (req, res) => {
       });
     }
     let ImagePath = product.image.map((url) => url.split("/"));
-    let oldImagePath = ImagePath[ImagePath.length -1];
-    
+    let oldImagePath = ImagePath[ImagePath.length - 1];
+
     let finalImagePath = oldImagePath[oldImagePath.length - 1];
 
     // console.log(product.image.map((url) => url.split("/")));
