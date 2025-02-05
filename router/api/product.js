@@ -5,13 +5,13 @@ const { errorCheck, upload } = require("../../middleware/imageControlMiddleware"
 
 
 
+//localhost:3000/api/v1/product/createProduct
 router.post(
   "/createProduct",
   errorCheck,
   upload.array("image"),
   productController
 );
-//localhost:3000/api/v1/product/createProduct
 //localhost:3000/api/v1/product/deleteProduct/id
 router.delete("/deleteProduct/:id", deleteProduct);
 module.exports = router;
